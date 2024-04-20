@@ -1,81 +1,72 @@
-import { Table,  TableProps} from "antd";
+import { Button, Flex, Table } from 'antd';
+import { Header } from 'antd/es/layout/layout';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-type DataType  = {
-    key: string;
-    name: string;
-    quantity: number;
-    price: number;
-    address: string;
-}
+const Product = () => {
+  const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5001/api/products/');
+        setProducts(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
-const columns: TableProps<DataType>['columns'] = [
-    {
-        title: 'ID',
-        dataIndex: 'key',
-        rowScope: 'row',
-        width:'5vw'
-    },
-    {
-        title: 'Product Name',
-        dataIndex: 'name',
-        render: (text) => <a>{text}</a>,
-    },
-    {
-        title: 'Quantity',
-        dataIndex: 'quantity',
-    },
-    {
-        title: 'Price',
-        dataIndex: 'price',
-    },
-];
+    fetchData();
+  }, []);
 
-const data: DataType[] = [
+  const columns = [
     {
-        key: '1',
-        name: 'Dress',
-        quantity: 32,
-        price: 60.000,
-        address: 'New York No. 1 Lake Park',
+      title: 'ID',
+      dataIndex: '_id',
+      rowScope: 'row',
+      width: '5vw',
     },
     {
-        key: '2',
-        name: 'Jean',
-        price: 20000,
-        quantity: 42,
-        address: 'London No. 1 Lake Park',
+      title: 'Product Name',
+      dataIndex: 'name',
+      render: (text: string, record: any) => (
+        <a href={`/product/${record.id}`}>{text}</a>
+      ),
     },
     {
-        key: '3',
-        name: 'Camera',
-        quantity: 32,
-        price: 18900010002,
-        address: 'Sydney No. 1 Lake Park',
+      title: 'Price',
+      dataIndex: 'price',
     },
     {
-        key: '4',
-        name: 'Shirt',
-        quantity: 18,
-        price: 18900010002,
-        address: 'London No. 2 Lake Park',
+      title: 'Stock quantity',
+      dataIndex: 'stock_quantity',
     },
     {
-        key: '5',
-        name: 'Polo',
-        quantity: 18,
-        price: 18900010002,
-        address: 'Dublin No. 2 Lake Park',
+      title: 'Sold quantity',
+      dataIndex: 'sold_quantity',
     },
-];
+    {
+      title: 'Category',
+      dataIndex: 'category_id',
+    },
+  ];
 
-function Product() {
-
-    return (
-        <div>
-            <Table columns={columns} dataSource={data} bordered />
-        </div>
-    );
-}
+  return (
+    <div>
+      <Header>
+        <Button
+          onClick={() => {
+            navigate('/product/create');
+          }}
+        >
+          Tạo sản phẩm
+        </Button>
+      </Header>
+      <Table columns={columns} dataSource={products} bordered />
+    </div>
+  );
+};
 
 export default Product;

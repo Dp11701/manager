@@ -10,6 +10,7 @@ import React, { useState } from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
 
 import Charter from './component/Charter/Charter.tsx';
+import CreateProduct from './component/Product/CreateProduct.tsx';
 import Product from './component/Product/Product.tsx';
 import User from './component/User/User.tsx';
 
@@ -80,6 +81,7 @@ const App: React.FC = () => {
             <Route path="/users" element={<User />} />
             <Route path="/product" element={<Product />} />
             <Route path="/chart" element={<Charter />} />
+            <Route path="/product/create" element={<CreateProduct />} />
           </Routes>
         </Content>
       </Layout>
