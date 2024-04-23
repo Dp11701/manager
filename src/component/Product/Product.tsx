@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { URL } from '../../constants/constants';
+
 const Product = () => {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -11,7 +13,7 @@ const Product = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/api/products/');
+        const response = await axios.get(URL);
         setProducts(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -29,42 +31,51 @@ const Product = () => {
       width: '5vw',
     },
     {
-      title: 'Product Name',
+      title: 'Tên sản phẩm',
       dataIndex: 'name',
       render: (text: string, record: any) => (
         <a href={`/product/${record.id}`}>{text}</a>
       ),
     },
     {
-      title: 'Price',
+      title: 'Giá',
       dataIndex: 'price',
     },
     {
-      title: 'Stock quantity',
+      title: 'Tổng số lượng hàng',
       dataIndex: 'stock_quantity',
     },
     {
-      title: 'Sold quantity',
+      title: 'đã bán',
       dataIndex: 'sold_quantity',
     },
     {
-      title: 'Category',
+      title: 'Loại sản phẩm',
       dataIndex: 'category_id',
     },
   ];
 
   return (
     <div>
-      <Header>
+      <Header
+        style={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}
+      >
         <Button
           onClick={() => {
             navigate('/product/create');
           }}
+          type="dashed"
         >
           Tạo sản phẩm
         </Button>
       </Header>
-      <Table columns={columns} dataSource={products} bordered />
+      <Table
+        columns={columns}
+        dataSource={products}
+        bordered
+        scroll={{ y: 350 }}
+        pagination={false}
+      />
     </div>
   );
 };
