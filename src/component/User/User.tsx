@@ -1,79 +1,63 @@
-import { Checkbox, Table, TableColumnsType } from 'antd';
+import { Button, Table } from 'antd';
+import { Header } from 'antd/es/layout/layout';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-type DataType = {
-  key: React.Key;
-  name: string;
-  age: number;
-  address: string;
-};
-const columns: TableColumnsType<DataType> = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    render: (text: string) => <a>{text}</a>,
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-  },
-];
+import { URL } from '../../constants/constants';
+import HeaderComponent from '../common/HeaderComponent/HeaderComponent';
 
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-  },
-  {
-    key: '4',
-    name: 'Disabled User',
-    age: 99,
-    address: 'Sydney No. 1 Lake Park',
-  },
-];
+const User = () => {
+  const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
 
-function User() {
-  const rowSelection = {
-    onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        'selectedRows: ',
-        selectedRows,
-      );
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${URL}/users`);
+        setUsers(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const columns = [
+    {
+      title: 'ID',
+      dataIndex: '_id',
     },
-    getCheckboxProps: (record: DataType) => ({
-      disabled: record.name === 'Disabled User', // Column configuration not to be checked
-      name: record.name,
-    }),
-  };
+    {
+      title: 'Tên người dùng',
+      dataIndex: 'username',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+    },
+    {
+      title: 'Số điện thoại',
+      dataIndex: 'phone',
+    },
+  ];
+
   return (
     <div>
+      <HeaderComponent
+        content="Tạo người dùng"
+        navigateContent="/users/create"
+      />
       <Table
-        rowSelection={{
-          ...rowSelection,
-        }}
         columns={columns}
-        dataSource={data}
+        dataSource={users}
+        bordered
+        scroll={{ y: 350 }}
+        pagination={false}
       />
     </div>
   );
-}
+};
 
 export default User;

@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 
+import { URL } from '../../constants/constants';
+
 function Charter() {
   const [chartData, setChartData] = useState({
     labels: [],
@@ -18,7 +20,7 @@ function Charter() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/api/products/');
+        const response = await axios.get(`${URL}/products`);
         const products = response.data;
         const labels = products.map((product: any) => product.name);
         const data = products.map(

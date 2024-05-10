@@ -1,10 +1,10 @@
 import { Button, Form, Input, Modal, Select } from 'antd';
-import { Header } from 'antd/es/layout/layout';
 import axios from 'axios';
 import { useForm, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { URL } from '../../constants/constants';
+import HeaderComponent from '../common/HeaderComponent/HeaderComponent';
 
 export default function CreateProduct() {
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ export default function CreateProduct() {
 
   const onSubmit = async (data: any) => {
     try {
-      await axios.post(URL, data);
+      await axios.post(`${URL}/products`, data);
       showModalSuccess();
     } catch (error) {
       showModalError();
@@ -40,18 +40,7 @@ export default function CreateProduct() {
 
   return (
     <>
-      <Header
-        style={{
-          marginBottom: '30px',
-          display: 'flex',
-          justifyContent: 'end',
-          alignItems: 'center',
-        }}
-      >
-        <Button onClick={() => navigate('/product')} className="h-10">
-          Quay lại
-        </Button>
-      </Header>
+      <HeaderComponent content="Quay lại" navigateContent="/product" />
       <Form
         onFinish={handleSubmit(onSubmit)}
         layout={'horizontal'}

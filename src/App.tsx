@@ -12,6 +12,7 @@ import { Link, Route, Routes } from 'react-router-dom';
 import Charter from './component/Charter/Charter.tsx';
 import CreateProduct from './component/Product/CreateProduct.tsx';
 import Product from './component/Product/Product.tsx';
+import CreateUser from './component/User/CreateUser.tsx';
 import User from './component/User/User.tsx';
 
 const { Header, Sider, Content } = Layout;
@@ -82,6 +83,7 @@ const App: React.FC = () => {
             <Route path="/product" element={<Product />} />
             <Route path="/chart" element={<Charter />} />
             <Route path="/product/create" element={<CreateProduct />} />
+            <Route path="/users/create" element={<CreateUser />} />
           </Routes>
         </Content>
       </Layout>
