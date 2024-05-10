@@ -40,17 +40,17 @@ const App: React.FC = () => {
             {
               key: '1',
               icon: <UserOutlined />,
-              label: <Link to="/users">User</Link>,
+              label: <Link to="/users">Người dùng</Link>,
             },
             {
               key: '2',
               icon: <ProductOutlined />,
-              label: <Link to="/product">Product</Link>,
+              label: <Link to="/product">Sản phẩm</Link>,
             },
             {
               key: '3',
               icon: <LineChartOutlined />,
-              label: <Link to="/chart">Chart</Link>,
+              label: <Link to="/chart">Thống kê</Link>,
             },
           ]}
         />
